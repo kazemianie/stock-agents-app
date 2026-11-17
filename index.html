@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1565c0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stock Agents">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Stock Agents</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <h1>📈 Stock Agents</h1>
+  <button id="btnSettings" class="icon" aria-label="Settings">⚙️</button>
+</header>
+
+<main>
+  <section id="viewHome">
+    <form id="formAnalyze" class="card">
+      <label for="ticker">Ticker</label>
+      <div class="row">
+        <input id="ticker" autocapitalize="characters" autocomplete="off" placeholder="e.g. NVDA" maxlength="15" required>
+        <button type="submit" id="btnAnalyze">Analyze</button>
+      </div>
+      <p class="hint" id="profileLine"></p>
+    </form>
+
+    <div id="notice" class="card notice hidden"></div>
+
+    <div class="card">
+      <div class="row between">
+        <h2>Reports</h2>
+        <button id="btnRefresh" class="small">↻ Refresh</button>
+      </div>
+      <p class="hint" id="serverStatus"></p>
+      <ul id="list" class="list"></ul>
+    </div>
+  </section>
+
+  <section id="viewReport" class="hidden">
+    <div class="row between sticky">
+      <button id="btnBack" class="small">← Back</button>
+      <span id="reportTitle"></span>
+      <a id="btnOpenNew" class="small button" target="_blank" rel="noopener">Open ↗</a>
+    </div>
+    <iframe id="frame" title="Report" sandbox="allow-scripts allow-popups"></iframe>
+  </section>
+
+  <section id="viewSettings" class="hidden">
+    <form id="formSettings" class="card">
+      <h2>GitHub connection</h2>
+      <label>Owner (user or org)<input id="sOwner" required></label>
+      <label>Repository<input id="sRepo" required></label>
+      <label>Branch<input id="sBranch" value="mobile" required></label>
+      <label>Fine-grained token
+        <input id="sToken" type="password" autocomplete="off" placeholder="github_pat_..." required>
+      </label>
+      <p class="hint">Create it at github.com → Settings → Developer settings → Fine-grained tokens. Repository access: <b>only this repo</b>.
+        Permissions: <b>Contents: Read and write</b>, <b>Actions: Read</b> (optional, for progress). The token is stored only on this device.</p>
+
+      <h2>Trader profile</h2>
+      <label>Account size ($)<input id="pAccount" type="number" min="500" step="100" value="10000"></label>
+      <label>Risk per trade (%)<input id="pRisk" type="number" min="0.1" max="5" step="0.1" value="0.5"></label>
+      <label>Max daily loss (%)<input id="pDaily" type="number" min="0.5" max="10" step="0.5" value="2"></label>
+      <fieldset><legend>Styles</legend>
+        <label class="inline"><input type="checkbox" id="stInvesting" checked> Investing</label>
+        <label class="inline"><input type="checkbox" id="stSwing" checked> Swing</label>
+        <label class="inline"><input type="checkbox" id="stDay" checked> Day trading</label>
+      </fieldset>
+      <label class="inline"><input type="checkbox" id="pShorts" checked> Allow short selling</label>
+      <label>AI provider
+        <select id="pProvider">
+          <option value="anthropic">Anthropic Claude</option>
+          <option value="openai">OpenAI</option>
+          <option value="mock">Mock (rules only, free)</option>
+        </select>
+      </label>
+      <div class="row">
+        <button type="submit">Save</button>
+        <button type="button" id="btnTest" class="secondary">Test connection</button>
+        <button type="button" id="btnCancel" class="secondary">Close</button>
+      </div>
+      <p class="hint" id="testResult"></p>
+    </form>
+  </section>
+</main>
+
+<footer>Education only, not financial advice.</footer>
+<script src="app.js"></script>
+</body>
+</html>
